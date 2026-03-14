@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zebrano Caffe — Kozarska Dubica</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --cream:#f5f0e8;--dark:#0e0a04;--espresso:#1e1007;--card:#1a0d05;
+      --gold:#c9a84c;--gold-dim:rgba(201,168,76,0.4);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--dark);color:var(--cream);font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;}
+
+    /* PAGE SYSTEM */
+    .page{display:none;min-height:100vh;}
+    .page.active{display:block;}
+    .page-fade{animation:pageFadeIn .5s ease forwards;}
+    @keyframes pageFadeIn{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+    /* CURSOR */
+    @media(pointer:fine){
+      body{cursor:none;}
+      #cursor{width:8px;height:8px;border-radius:50%;background:var(--gold);position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transition:transform .12s ease;}
+      #cursor-ring{width:30px;height:30px;border:1px solid rgba(201,168,76,.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transition:transform .3s cubic-bezier(.17,.67,.53,1.2);}
+    }
+
+    /* NAV */
+    #mainNav{position:fixed;top:0;width:100%;z-index:200;display:flex;justify-content:space-between;align-items:center;padding:22px 60px;transition:background .4s,padding .4s;}
+    #mainNav.scrolled{background:rgba(14,10,4,.97);backdrop-filter:blur(12px);padding:14px 60px;border-bottom:1px solid rgba(201,168,76,.1);}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;letter-spacing:.1em;color:var(--gold);cursor:pointer;}
+    .nav-links{display:flex;gap:28px;list-style:none;}
+    .nav-links a{color:rgba(245,240,232,.6);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;transition:color .3s;cursor:pointer;}
+    .nav-links a:hover,.nav-links a.active{color:var(--gold);}
+    .nav-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+    .nav-burger span{display:block;width:24px;height:1.5px;background:var(--cream);transition:all .3s;}
+    .nav-burger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+    .nav-burger.open span:nth-child(2){opacity:0;}
+    .nav-burger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+    .mobile-menu{display:none;position:fixed;inset:0;z-index:190;background:rgba(8,4,1,.98);backdrop-filter:blur(16px);flex-direction:column;align-items:center;justify-content:center;gap:34px;}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{font-family:'Playfair Display',serif;font-size:1.9rem;color:var(--cream);cursor:pointer;transition:color .3s;}
+    .mobile-menu a:hover{color:var(--gold);}
+    .mobile-ig{color:var(--gold)!important;font-size:1rem!important;letter-spacing:.2em;font-family:'Jost',sans-serif!important;}
+
+    /* SHARED */
+    .section-eyebrow{font-size:.6rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.15;color:var(--cream);margin-bottom:26px;}
+    .section-title em{font-style:italic;color:var(--gold);}
+    .body-text{font-size:.93rem;line-height:1.95;color:rgba(245,240,232,.62);margin-bottom:18px;}
+    .btn-primary{background:var(--gold);color:var(--dark);padding:14px 36px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;transition:all .3s;cursor:pointer;border:none;display:inline-block;}
+    .btn-primary:hover{background:var(--cream);}
+    .btn-ghost{border:1px solid var(--gold-dim);color:var(--gold);padding:13px 32px;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;cursor:pointer;display:inline-block;}
+    .btn-ghost:hover{border-color:var(--gold);background:rgba(201,168,76,.08);}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .reveal-left{opacity:0;transform:translateX(-32px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal-left.visible{opacity:1;transform:translateX(0);}
+    .reveal-right{opacity:0;transform:translateX(32px);transition:opacity .8s ease,transform .8s ease;}
+    .reveal-right.visible{opacity:1;transform:translateX(0);}
+    .d1{transition-delay:.1s;}.d2{transition-delay:.22s;}.d3{transition-delay:.36s;}.d4{transition-delay:.5s;}
+
+    /* PAGE BANNER */
+    .page-banner{height:40vh;min-height:260px;display:flex;align-items:flex-end;padding:0 64px 52px;position:relative;overflow:hidden;background:var(--espresso);}
+    .pb-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.2;}
+    .pb-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,10,4,.92) 0%,rgba(14,10,4,.25) 100%);}
+    .pb-content{position:relative;z-index:2;}
+    .pb-eye{font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+    .pb-title{font-family:'Playfair Display',serif;font-size:clamp(2.6rem,6vw,5rem);line-height:1;color:var(--cream);}
+    .pb-title em{color:var(--gold);font-style:italic;}
+
+    /* MARQUEE */
+    .marquee-band{overflow:hidden;background:var(--gold);padding:13px 0;white-space:nowrap;}
+    .marquee-inner{display:inline-flex;animation:marquee 24s linear infinite;}
+    .marquee-inner span{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:rgba(14,10,4,.85);font-weight:600;padding:0 28px;}
+    .marquee-inner .dot{color:rgba(14,10,4,.35);}
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+    /* FOOTER */
+    footer{padding:64px 64px 40px;border-top:1px solid rgba(201,168,76,.1);}
+    .footer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px;flex-wrap:wrap;gap:24px;}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:1.85rem;color:var(--gold);}
+    .footer-logo span{font-style:italic;}
+    .footer-nav{display:flex;gap:24px;flex-wrap:wrap;}
+    .footer-nav a{color:rgba(245,240,232,.4);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:color .3s;}
+    .footer-nav a:hover{color:var(--gold);}
+    .footer-social a{display:inline-flex;align-items:center;gap:10px;color:var(--cream);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(201,168,76,.28);padding:11px 24px;transition:all .3s;}
+    .footer-social a:hover{background:var(--gold);color:var(--dark);border-color:var(--gold);}
+    .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:22px;border-top:1px solid rgba(201,168,76,.07);flex-wrap:wrap;gap:10px;}
+    .footer-copy{font-size:.68rem;color:rgba(245,240,232,.25);letter-spacing:.1em;}
+    .footer-tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:.8rem;color:rgba(201,168,76,.4);}
+
+    /* ── HOME ── */
+    #hero{height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:var(--espresso);}
+    .hero-photo{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1800&q=70&fit=crop');background-size:cover;background-position:center;opacity:.22;transform:scale(1.08);animation:heroZoom 18s ease-in-out infinite alternate;}
+    @keyframes heroZoom{from{transform:scale(1.08);}to{transform:scale(1.0);}}
+    .hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 60%,transparent 0%,rgba(14,10,4,.85) 80%);}
+    .hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");opacity:.5;}
+    .hero-lines{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 79px,rgba(201,168,76,.03) 80px);}
+    .hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;}
+    .hero-tag{font-size:.63rem;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;opacity:0;animation:fadeUp 1s .3s ease forwards;}
+    .hero-title{font-family:'Playfair Display',serif;font-size:clamp(4rem,13vw,10rem);line-height:.88;color:var(--cream);opacity:0;animation:fadeUp 1s .55s ease forwards;}
+    .hero-title em{font-style:italic;color:var(--gold);}
+    .hero-subtitle{margin-top:22px;font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,240,232,.45);opacity:0;animation:fadeUp 1s .8s ease forwards;}
+    .hero-cta{margin-top:48px;display:inline-flex;gap:14px;flex-wrap:wrap;justify-content:center;opacity:0;animation:fadeUp 1s 1s ease forwards;}
+    .hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeUp 1s 1.5s ease forwards;}
+    .hero-scroll span{font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.4);}
+    .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2s infinite;}
+    @keyframes scrollPulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+
+    .photo-strip{display:grid;grid-template-columns:repeat(4,1fr);height:240px;overflow:hidden;}
+    .photo-strip-item{overflow:hidden;position:relative;}
+    .photo-strip-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease;display:block;}
+    .photo-strip-item:hover img{transform:scale(1.07);}
+    .photo-strip-item::after{content:'';position:absolute;inset:0;background:rgba(14,10,4,.32);}
+
+    .home-about{padding:110px 64px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1400px;margin:0 auto;}
+    .about-photos{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:290px 190px;gap:10px;position:relative;}
+    .about-photos .ph{overflow:hidden;border-radius:1px;}
+    .about-photos .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;}
+    .about-photos .ph:hover img{transform:scale(1.05);}
+    .about-photos .ph.big{grid-column:1/2;grid-row:1/3;}
+    .about-accent{position:absolute;bottom:-18px;right:-18px;width:150px;height:150px;border:1px solid rgba(201,168,76,.22);background:rgba(20,10,3,.85);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;}
+    .accent-star{font-family:'Playfair Display',serif;font-size:2.4rem;color:var(--gold);line-height:1;}
+    .accent-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,240,232,.45);}
+    .feature-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-top:26px;}
+    .feature-list li{display:flex;align-items:center;gap:14px;font-size:.8rem;letter-spacing:.06em;color:rgba(245,240,232,.65);}
+    .feature-list li::before{content:'';width:20px;height:1px;background:var(--gold);flex-shrink:0;}
+
+    .stats-bar{background:var(--espresso);border-top:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);padding:52px 64px;}
+    .stats-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;}
+    .stat-item{padding:0 20px;border-right:1px solid rgba(201,168,76,.12);}
+    .stat-item:last-child{border-right:none;}
+    .stat-num{font-family:'Playfair Display',serif;font-size:2.6rem;color:var(--gold);line-height:1;}
+    .stat-label{font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,240,232,.42);margin-top:8px;}
+
+    .home-meni-preview{padding:100px 64px;background:linear-gradient(180deg,var(--dark),var(--espresso));}
+    .home-meni-preview .section-center{text-align:center;margin-bottom:56px;}
+    .preview-cards{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+    .preview-card{background:rgba(26,13,5,.6);border:1px solid rgba(201,168,76,.07);padding:32px 24px;transition:all .3s;position:relative;overflow:hidden;}
+    .preview-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s;}
+    .preview-card:hover{background:rgba(30,16,7,.9);border-color:rgba(201,168,76,.2);}
+    .preview-card:hover::after{width:100%;}
+    .preview-card-icon{font-size:1.6rem;margin-bottom:18px;}
+    .preview-card-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);margin-bottom:12px;}
+    .preview-card-desc{font-size:.78rem;color:rgba(245,240,232,.45);line-height:1.7;}
+    .preview-card-cta{margin-top:20px;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);cursor:pointer;}
+    .preview-card-cta:hover{text-decoration:underline;}
+
+    .home-galerija-teaser{padding:80px 0 100px;}
+    .hgt-inner{max-width:1400px;margin:0 auto;padding:0 64px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+    .hgt-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:220px 160px;gap:8px;}
+    .hgt-cell{overflow:hidden;}
+    .hgt-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s;}
+    .hgt-cell:hover img{transform:scale(1.07);}
+    .hgt-cell:first-child{grid-row:1/3;}
+
+    /* ── O NAMA ── */
+    .about-full-grid{padding:80px 64px 100px;display:grid;grid-template-columns:1fr 1fr;gap:90px;align-items:center;max-width:1400px;margin:0 auto;}
+    .values-section{padding:80px 64px 100px;background:var(--espresso);}
+    .values-inner{max-width:1200px;margin:0 auto;}
+    .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:56px;}
+    .value-card{background:rgba(14,10,4,.5);border:1px solid rgba(201,168,76,.07);padding:40px 32px;transition:all .35s;}
+    .value-card:hover{background:rgba(14,10,4,.85);border-color:rgba(201,168,76,.2);}
+    .value-icon{font-size:1.5rem;margin-bottom:20px;}
+    .value-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--cream);margin-bottom:12px;}
+    .value-desc{font-size:.8rem;color:rgba(245,240,232,.48);line-height:1.75;}
+    .quotes-strip{padding:80px 64px 100px;}
+    .quotes-inner{max-width:900px;margin:0 auto;}
+    .big-quote{font-family:'Playfair Display',serif;font-size:clamp(1.2rem,2.2vw,1.8rem);font-style:italic;color:rgba(245,240,232,.68);line-height:1.65;border-top:1px solid rgba(201,168,76,.18);border-bottom:1px solid rgba(201,168,76,.18);padding:32px 0;margin-top:40px;}
+    .big-quote-credit{margin-top:16px;font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.45);}
+
+    /* ── MENI ── */
+    .menu-page-wrap{padding:80px 64px 100px;background:linear-gradient(180deg,var(--dark),var(--espresso) 50%,var(--dark));}
+    .menu-header{text-align:center;margin-bottom:64px;}
+    .divider{display:flex;align-items:center;gap:18px;margin:0 auto;}
+    .divider-line{flex:1;height:1px;background:rgba(201,168,76,.18);}
+    .divider-icon{color:var(--gold);font-size:.7rem;}
+    .menu-tabs{display:flex;justify-content:center;gap:0;margin-top:40px;border-bottom:1px solid rgba(201,168,76,.12);flex-wrap:wrap;}
+    .menu-tab{padding:11px 30px;background:none;border:none;color:rgba(245,240,232,.35);font-family:'Jost',sans-serif;font-size:.67rem;letter-spacing:.22em;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .3s;}
+    .menu-tab:hover{color:var(--cream);}
+    .menu-tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+    .menu-grid{display:none;max-width:940px;margin:56px auto 0;grid-template-columns:1fr 1fr;gap:2px;animation:fadeUp .4s ease forwards;}
+    .menu-grid.active{display:grid;}
+    .menu-item{padding:24px 28px;border:1px solid rgba(201,168,76,.07);background:rgba(30,16,7,.4);transition:all .3s;position:relative;overflow:hidden;}
+    .menu-item::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--gold);transition:width .4s ease;}
+    .menu-item:hover{background:rgba(30,16,7,.75);border-color:rgba(201,168,76,.18);}
+    .menu-item:hover::after{width:100%;}
+    .menu-item-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+    .menu-item-name{font-family:'Playfair Display',serif;font-size:.96rem;color:var(--cream);}
+    .menu-item-price{font-size:.76rem;color:var(--gold);letter-spacing:.08em;flex-shrink:0;margin-left:8px;}
+    .menu-item-dot{flex:1;border-bottom:1px dotted rgba(201,168,76,.15);margin:0 10px 3px;}
+    .menu-item-desc{font-size:.75rem;color:rgba(245,240,232,.4);line-height:1.6;}
+    .menu-note{max-width:940px;margin:48px auto 0;padding:28px 32px;border:1px solid rgba(201,168,76,.1);background:rgba(26,13,5,.5);display:flex;gap:20px;align-items:flex-start;}
+    .menu-note-icon{font-size:1.1rem;flex-shrink:0;margin-top:2px;}
+    .menu-note-text{font-size:.8rem;color:rgba(245,240,232,.5);line-height:1.7;}
+    .menu-note-text strong{color:var(--gold);font-weight:500;}
+
+    /* ── GALERIJA ── */
+    .galerija-intro{padding:80px 64px 0;max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+    .atm-quote{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:rgba(245,240,232,.65);line-height:1.65;border-left:2px solid var(--gold);padding-left:26px;margin-top:26px;}
+    .atm-mosaic{max-width:1400px;margin:56px auto 0;padding:0 64px;display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:280px 220px;gap:8px;}
+    .atm-cell{overflow:hidden;position:relative;}
+    .atm-cell img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .9s ease,filter .5s ease;}
+    .atm-cell:hover img{transform:scale(1.06);filter:brightness(1.1);}
+    .atm-cell:first-child{grid-row:1/3;}
+    .atm-label{position:absolute;bottom:0;left:0;right:0;padding:14px 18px;background:linear-gradient(to top,rgba(14,10,4,.8),transparent);font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.7);opacity:0;transform:translateY(6px);transition:all .4s;}
+    .atm-cell:hover .atm-label{opacity:1;transform:translateY(0);}
+    .galerija-row2{max-width:1400px;margin:8px auto 0;padding:0 64px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+    .galerija-row2 .atm-cell{height:200px;}
+    .photo-reel{display:flex;gap:10px;overflow-x:auto;padding:40px 64px 20px;scrollbar-width:none;margin-top:8px;}
+    .photo-reel::-webkit-scrollbar{display:none;}
+    .photo-reel-item{flex:0 0 280px;height:190px;overflow:hidden;}
+    .photo-reel-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s;}
+    .photo-reel-item:hover img{transform:scale(1.07);}
+
+    /* ── INFO ── */
+    .info-blocks{padding:80px 64px 72px;background:var(--espresso);}
+    .info-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr;}
+    .info-divider{background:rgba(201,168,76,.15);align-self:stretch;}
+    .info-block{padding:0 48px;text-align:center;}
+    .info-block:first-child{padding-left:0;}
+    .info-block:last-child{padding-right:0;}
+    .info-icon{font-size:1.3rem;margin-bottom:18px;}
+    .info-label{font-size:.58rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:12px;}
+    .info-value{font-family:'Playfair Display',serif;font-size:1rem;color:var(--cream);line-height:1.8;}
+    .info-sub{font-size:.74rem;color:rgba(245,240,232,.35);margin-top:6px;letter-spacing:.06em;}
+    .map-section{padding:0 64px 80px;background:var(--espresso);}
+    .map-block{max-width:1100px;margin:0 auto;border:1px solid rgba(201,168,76,.1);overflow:hidden;position:relative;}
+    .map-block iframe{width:100%;height:380px;border:none;display:block;filter:grayscale(80%) sepia(20%) brightness(.75);}
+    .map-overlay{position:absolute;top:20px;left:20px;background:rgba(14,10,4,.88);border:1px solid rgba(201,168,76,.22);padding:12px 18px;backdrop-filter:blur(6px);}
+    .map-overlay p{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);}
+    .faq-section{padding:80px 64px 100px;}
+    .faq-inner{max-width:860px;margin:0 auto;}
+    .faq-list{margin-top:48px;display:flex;flex-direction:column;gap:2px;}
+    .faq-item{border:1px solid rgba(201,168,76,.07);background:rgba(26,13,5,.4);overflow:hidden;}
+    .faq-q{padding:22px 28px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:.88rem;color:var(--cream);letter-spacing:.04em;transition:color .3s;}
+    .faq-q:hover{color:var(--gold);}
+    .faq-q::after{content:'＋';font-size:.9rem;color:var(--gold);flex-shrink:0;margin-left:16px;transition:transform .3s;}
+    .faq-item.open .faq-q::after{transform:rotate(45deg);}
+    .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s;}
+    .faq-item.open .faq-a{max-height:220px;padding:0 28px 22px;}
+    .faq-a p{font-size:.82rem;color:rgba(245,240,232,.5);line-height:1.8;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:1100px){
+      nav{padding:18px 32px;}nav.scrolled{padding:12px 32px;}
+      .home-about,.about-full-grid{padding:80px 32px;gap:60px;}
+      .stats-bar,.home-meni-preview{padding:44px 32px;}
+      .home-galerija-teaser .hgt-inner,.galerija-intro{padding:0 32px;}
+      .home-galerija-teaser{padding:70px 0 80px;}
+      .values-section{padding:70px 32px 80px;}
+      .quotes-strip{padding:60px 32px 80px;}
+      .menu-page-wrap{padding:64px 32px 80px;}
+      .atm-mosaic,.galerija-row2{padding:40px 32px 0;}
+      .galerija-row2{padding:0 32px;}
+      .photo-reel{padding:28px 32px 16px;}
+      .info-blocks{padding:64px 32px 56px;}
+      .map-section{padding:0 32px 70px;}
+      .faq-section{padding:64px 32px 80px;}
+      footer{padding:52px 32px 36px;}
+      .page-banner{padding:0 32px 44px;}
+    }
+    @media(max-width:768px){
+      #mainNav{padding:14px 18px;}#mainNav.scrolled{padding:10px 18px;}
+      .nav-links{display:none;}.nav-burger{display:flex;}
+      .photo-strip{grid-template-columns:1fr 1fr;height:180px;}
+      .home-about{grid-template-columns:1fr;gap:44px;padding:70px 20px;}
+      .about-photos{grid-template-rows:240px 170px;}
+      .about-accent{width:120px;height:120px;bottom:-12px;right:-8px;}
+      .stats-bar{padding:36px 20px;}
+      .stats-inner{grid-template-columns:1fr 1fr;gap:32px;}
+      .stat-item{border-right:none;}
+      .home-meni-preview{padding:70px 20px;}
+      .preview-cards{grid-template-columns:1fr 1fr;}
+      .home-galerija-teaser{padding:60px 0 70px;}
+      .hgt-inner{grid-template-columns:1fr;padding:0 20px;gap:44px;}
+      .hgt-grid{grid-template-columns:1fr 1fr;grid-template-rows:180px 140px;}
+      .hgt-cell:first-child{grid-row:1/3;}
+      .about-full-grid{grid-template-columns:1fr;gap:44px;padding:60px 20px 80px;}
+      .values-section{padding:60px 20px 70px;}
+      .values-grid{grid-template-columns:1fr;}
+      .quotes-strip{padding:50px 20px 70px;}
+      .menu-page-wrap{padding:50px 20px 70px;}
+      .menu-grid{grid-template-columns:1fr;}
+      .menu-tab{padding:10px 14px;font-size:.62rem;}
+      .menu-note{flex-direction:column;gap:12px;}
+      .galerija-intro{grid-template-columns:1fr;gap:32px;padding:50px 20px 0;}
+      .atm-mosaic{grid-template-columns:1fr 1fr;grid-template-rows:200px 170px 170px;padding:40px 20px 0;}
+      .atm-cell:first-child{grid-column:1/3;grid-row:1/2;}
+      .photo-reel{padding:24px 20px 12px;}
+      .photo-reel-item{flex:0 0 210px;height:150px;}
+      .galerija-row2{grid-template-columns:1fr 1fr;padding:0 20px;}
+      .galerija-row2 .atm-cell{height:160px;}
+      .info-blocks{padding:50px 20px 44px;}
+      .info-inner{grid-template-columns:1fr;gap:40px;}
+      .info-divider{display:none;}
+      .info-block{padding:0;}
+      .map-section{padding:0 20px 60px;}
+      .map-block iframe{height:260px;}
+      .faq-section{padding:50px 20px 70px;}
+      footer{padding:44px 20px 28px;}
+      .footer-top{flex-direction:column;align-items:center;text-align:center;}
+      .footer-nav{justify-content:center;}
+      .footer-bottom{justify-content:center;}
+      .page-banner{padding:0 20px 36px;height:30vh;min-height:200px;}
+      .pb-title{font-size:clamp(2rem,8vw,3.2rem);}
+    }
+    @media(max-width:480px){
+      .hero-title{font-size:clamp(3.4rem,16vw,6rem);}
+      .hero-cta{flex-direction:column;align-items:center;}
+      .btn-primary,.btn-ghost{width:min(210px,82vw);text-align:center;}
+      .photo-strip{height:150px;}
+      .about-photos{grid-template-columns:1fr;grid-template-rows:240px 170px;}
+      .about-photos .ph.big{grid-column:1;grid-row:1/2;}
+      .stats-inner{grid-template-columns:1fr;}
+      .preview-cards{grid-template-columns:1fr;}
+      .atm-mosaic{grid-template-columns:1fr;grid-template-rows:auto;}
+      .atm-cell,.atm-cell:first-child{grid-column:auto;grid-row:auto;height:200px;}
+      .galerija-row2{grid-template-columns:1fr 1fr;}
+      .menu-tab{padding:9px 10px;font-size:.6rem;letter-spacing:.12em;}
+    }
+  </style>
+</head>
+<body>
+<div id="cursor"></div><div id="cursor-ring"></div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="goTo('home');closeMobile()">Početna</a>
+  <a onclick="goTo('o-nama');closeMobile()">O Nama</a>
+  <a onclick="goTo('meni');closeMobile()">Meni</a>
+  <a onclick="goTo('galerija');closeMobile()">Galerija</a>
+  <a onclick="goTo('info');closeMobile()">Info</a>
+  <a href="https://www.instagram.com/zebranocaffe/" target="_blank" class="mobile-ig">Instagram ↗</a>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <span class="nav-logo" onclick="goTo('home')">Zebrano</span>
+  <ul class="nav-links">
+    <li><a onclick="goTo('home')" data-page="home" class="active">Početna</a></li>
+    <li><a onclick="goTo('o-nama')" data-page="o-nama">O Nama</a></li>
+    <li><a onclick="goTo('meni')" data-page="meni">Meni</a></li>
+    <li><a onclick="goTo('galerija')" data-page="galerija">Galerija</a></li>
+    <li><a onclick="goTo('info')" data-page="info">Info</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="nav-burger" id="burger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ═══ PAGE: POČETNA ═══ -->
+<div class="page active" id="page-home">
+  <section id="hero">
+    <div class="hero-photo"></div><div class="hero-overlay"></div><div class="hero-grain"></div><div class="hero-lines"></div>
+    <div class="hero-content">
+      <p class="hero-tag">Kozarska Dubica · Republika Srpska</p>
+      <h1 class="hero-title">Ze<em>bra</em>no</h1>
+      <p class="hero-subtitle">Caffe Bar &amp; Lounge</p>
+      <div class="hero-cta">
+        <span class="btn-primary" onclick="goTo('meni')">Pogledaj Meni</span>
+        <span class="btn-ghost" onclick="goTo('info')">Radno Vrijeme</span>
+      </div>
+    </div>
+    <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
+  </section>
+
+  <div class="photo-strip">
+    <div class="photo-strip-item"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-strip-item"><img src="https://images.unsplash.com/photo-1510626176961-4b57d4fbad03?w=600&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-strip-item"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-strip-item"><img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=600&q=75&fit=crop" alt="" loading="lazy"></div>
+  </div>
+
+  <div class="home-about">
+    <div class="about-photos reveal-left">
+      <div class="ph big"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&q=80&fit=crop" alt="Interijer" loading="lazy"></div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80&fit=crop" alt="Kafa" loading="lazy"></div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=500&q=80&fit=crop" alt="Koktel" loading="lazy"></div>
+      <div class="about-accent"><span class="accent-star">★</span><span class="accent-label">Top rated</span><span class="accent-label">u gradu</span></div>
+    </div>
+    <div>
+      <p class="section-eyebrow reveal">O Nama</p>
+      <h2 class="section-title reveal d1">Mjesto gdje se <em>susreću</em> stil i okus</h2>
+      <p class="body-text reveal d2">Zebrano Caffe je jedno od najomiljenijih mjesta u Kozarskoj Dubici — moderan caffe bar koji spaja prefinjen ambijent sa toplinom domaće atmosfere.</p>
+      <p class="body-text reveal d2">Bilo da dolazite na jutarnju kafu, poslovni sastanak ili večernje druženje, Zebrano je vaše mjesto u srcu grada.</p>
+      <ul class="feature-list reveal d3">
+        <li>Pažljivo odabrana kafa i topli napici</li>
+        <li>Bogat izbor koktela i bezalkoholnih pića</li>
+        <li>Opuštena atmosfera &amp; lijepo uređen prostor</li>
+        <li>Terasa za ugodne dane</li>
+        <li>Glazba &amp; dobro raspoloženje svaki dan</li>
+      </ul>
+      <div style="margin-top:34px;" class="reveal d4"><span class="btn-ghost" onclick="goTo('o-nama')">Saznaj više →</span></div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat-item reveal"><div class="stat-num">08:00</div><div class="stat-label">Otvaramo svakog dana</div></div>
+      <div class="stat-item reveal d1"><div class="stat-num">01:00</div><div class="stat-label">Vikend zatvaranje</div></div>
+      <div class="stat-item reveal d2"><div class="stat-num">50+</div><div class="stat-label">Vrsta pića u ponudi</div></div>
+      <div class="stat-item reveal d3"><div class="stat-num">★★★★★</div><div class="stat-label">Ocjena gostiju</div></div>
+    </div>
+  </div>
+
+  <div class="home-meni-preview">
+    <div class="section-center reveal">
+      <p class="section-eyebrow">Naša Ponuda</p>
+      <h2 class="section-title d1">Nešto za <em>svakoga</em></h2>
+    </div>
+    <div class="preview-cards">
+      <div class="preview-card reveal"><div class="preview-card-icon">☕</div><div class="preview-card-title">Kafa &amp; Topli Napici</div><div class="preview-card-desc">Espresso, cappuccino, latte, domaća kafa — savršen početak svakog dana.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
+      <div class="preview-card reveal d1"><div class="preview-card-icon">🍹</div><div class="preview-card-title">Kokteli &amp; Pića</div><div class="preview-card-desc">Osvježavajući kokteli, domaće limunade, pivo i vino za svaku prigodu.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
+      <div class="preview-card reveal d2"><div class="preview-card-icon">🌿</div><div class="preview-card-title">Terasa</div><div class="preview-card-desc">Uživajte u toplim danima na našoj terasi — idealno za jutarnju kafu ili večer.</div><div class="preview-card-cta" onclick="goTo('galerija')">Pogledaj prostor →</div></div>
+      <div class="preview-card reveal d3"><div class="preview-card-icon">🎵</div><div class="preview-card-title">Glazba &amp; Atmosfera</div><div class="preview-card-desc">Pažljivo odabrana glazba stvara savršenu kulisu za svaki trenutak u danu.</div><div class="preview-card-cta" onclick="goTo('info')">Kontaktirajte nas →</div></div>
+    </div>
+  </div>
+
+  <div class="home-galerija-teaser">
+    <div class="hgt-inner">
+      <div class="hgt-grid reveal-left">
+        <div class="hgt-cell"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=600&q=80&fit=crop" alt="" loading="lazy"></div>
+        <div class="hgt-cell"><img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80&fit=crop" alt="" loading="lazy"></div>
+        <div class="hgt-cell"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=500&q=80&fit=crop" alt="" loading="lazy"></div>
+      </div>
+      <div>
+        <p class="section-eyebrow reveal">Galerija</p>
+        <h2 class="section-title reveal d1">Atmosfera koja <em>oduševljava</em></h2>
+        <p class="body-text reveal d2">Topla rasvjeta, pažljivo odabrani detalji i udoban interijer — svaki posjet Zebrano je poseban doživljaj koji pamtite.</p>
+        <p class="body-text reveal d2">Moderan dizajn u srcu Kozarske Dubice — prostor koji vas odmah opušta.</p>
+        <div style="margin-top:30px;" class="reveal d3"><span class="btn-ghost" onclick="goTo('galerija')">Pogledaj galeriju →</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-band"><div class="marquee-inner" aria-hidden="true"><span>Espresso</span><span class="dot">◆</span><span>Cappuccino</span><span class="dot">◆</span><span>Kokteli</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span><span>Dobra Muzika</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span><span>Espresso</span><span class="dot">◆</span><span>Cappuccino</span><span class="dot">◆</span><span>Kokteli</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span><span>Dobra Muzika</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span></div></div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">Ze<span>brano</span></div>
+      <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
+  </footer>
+</div>
+
+<!-- ═══ PAGE: O NAMA ═══ -->
+<div class="page" id="page-o-nama">
+  <div class="page-banner">
+    <div class="pb-bg" style="background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=70&fit=crop');"></div>
+    <div class="pb-overlay"></div>
+    <div class="pb-content"><p class="pb-eye">Zebrano Caffe</p><h1 class="pb-title">O <em>Nama</em></h1></div>
+  </div>
+
+  <div class="about-full-grid">
+    <div class="about-photos reveal-left">
+      <div class="ph big"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&q=80&fit=crop" alt="Interijer" loading="lazy"></div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80&fit=crop" alt="Kafa" loading="lazy"></div>
+      <div class="ph"><img src="https://images.unsplash.com/photo-1512568400610-62da28bc8a13?w=500&q=80&fit=crop" alt="Koktel" loading="lazy"></div>
+      <div class="about-accent"><span class="accent-star">★</span><span class="accent-label">Top rated</span><span class="accent-label">u gradu</span></div>
+    </div>
+    <div>
+      <p class="section-eyebrow reveal">Naša Priča</p>
+      <h2 class="section-title reveal d1">Više od kafića — <em>mjesto susreta</em></h2>
+      <p class="body-text reveal d2">Zebrano Caffe je nastao iz ljubavi prema dobroj kafi i još boljim trenucima. Smješteni u srcu Kozarske Dubice, postali smo omiljeni kutak za sve koji cijene kvalitet, ugodnu atmosferu i uslugu koja dolazi od srca.</p>
+      <p class="body-text reveal d2">Naš tim svaki dan radi na tome da vaš boravak bude savršen — od prve jutarnje kafe do kasnih večernjih razgovora uz omiljeni napitak.</p>
+      <p class="body-text reveal d2">Dobrodošli su svi — od stalnih gostiju koji dolaze svako jutro, do onih koji nas posjećuju po prvi put.</p>
+      <ul class="feature-list reveal d3">
+        <li>Pažljivo odabrana kafa i topli napici</li>
+        <li>Bogat izbor koktela i bezalkoholnih pića</li>
+        <li>Opuštena atmosfera &amp; lijepo uređen prostor</li>
+        <li>Terasa za ugodne dane</li>
+        <li>Glazba &amp; dobro raspoloženje svaki dan</li>
+        <li>Ljubazno i stručno osoblje</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="values-section">
+    <div class="values-inner">
+      <div style="text-align:center;">
+        <p class="section-eyebrow reveal">Naše Vrijednosti</p>
+        <h2 class="section-title reveal d1">Što nas čini <em>posebnim</em></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal"><div class="value-icon">☕</div><div class="value-title">Kvalitetna Kafa</div><div class="value-desc">Biramo samo najpremijernija zrna kafe i brinemo se o svakom detalju pripreme — od temperature do izgleda u šolji.</div></div>
+        <div class="value-card reveal d1"><div class="value-icon">🤝</div><div class="value-title">Topla Dobrodošlica</div><div class="value-desc">Svaki gost je poseban. Naš tim je tu da vas dočeka s osmijehom i napravi da se osjećate kao kod kuće.</div></div>
+        <div class="value-card reveal d2"><div class="value-icon">✨</div><div class="value-title">Pažnja na Detalje</div><div class="value-desc">Od uređenja prostora do prezentacije pića, svaki detalj je promišljen kako bi vaše iskustvo bilo savršeno.</div></div>
+        <div class="value-card reveal d3"><div class="value-icon">🎵</div><div class="value-title">Prava Atmosfera</div><div class="value-desc">Pažljivo odabrana glazba i topla rasvjeta stvaraju savršenu kulisu za svaki trenutak u danu.</div></div>
+        <div class="value-card reveal d4"><div class="value-icon">🌿</div><div class="value-title">Svježi Sastojci</div><div class="value-desc">Koristimo svježe sastojke za naše limunade, koktele i hranu — okus koji to odmah pokaže.</div></div>
+        <div class="value-card reveal" style="transition-delay:.6s;"><div class="value-icon">📍</div><div class="value-title">Srce Grada</div><div class="value-desc">Strateška lokacija u centru Kozarske Dubice čini nas lako dostupnim za sve.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quotes-strip">
+    <div class="quotes-inner">
+      <div style="text-align:center;"><p class="section-eyebrow reveal">Gosti O Nama</p><h2 class="section-title reveal d1">Što kažu naši <em>gosti</em></h2></div>
+      <blockquote class="big-quote reveal d2">"Zebrano je jedno od rijetkih mjesta gdje se svaki put osjećam dobrodošlo. Kafa je uvijek savršena, osoblje toplo, a atmosfera — jednostavno nezaboravna."</blockquote>
+      <p class="big-quote-credit reveal d3">— Gost iz Kozarske Dubice</p>
+      <blockquote class="big-quote reveal" style="margin-top:32px;">"Idealno mjesto za jutarnji početak ili večernji izlazak. Preporučujem svima koji traže kvalitet i opuštenu atmosferu u jednom."</blockquote>
+      <p class="big-quote-credit reveal d1">— Redovan gost</p>
+    </div>
+  </div>
+
+  <div class="marquee-band"><div class="marquee-inner" aria-hidden="true"><span>Zebrano Caffe</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Kafa</span><span class="dot">◆</span><span>Okus</span><span class="dot">◆</span><span>Susreti</span><span class="dot">◆</span><span>Dobra Atmosfera</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Kafa</span><span class="dot">◆</span><span>Okus</span><span class="dot">◆</span><span>Susreti</span><span class="dot">◆</span><span>Dobra Atmosfera</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span></div></div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">Ze<span>brano</span></div>
+      <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
+  </footer>
+</div>
+
+<!-- ═══ PAGE: MENI ═══ -->
+<div class="page" id="page-meni">
+  <div class="page-banner">
+    <div class="pb-bg" style="background-image:url('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&q=70&fit=crop');"></div>
+    <div class="pb-overlay"></div>
+    <div class="pb-content"><p class="pb-eye">Zebrano Caffe</p><h1 class="pb-title">Naš <em>Meni</em></h1></div>
+  </div>
+
+  <div class="menu-page-wrap">
+    <div class="menu-header">
+      <p class="section-eyebrow reveal">Naš Meni</p>
+      <h2 class="section-title reveal d1">Odaberi <em>što ti odgovara</em></h2>
+      <p class="body-text reveal d2" style="max-width:520px;margin:0 auto 0;">Svježe pripremljeni napici i zalogaji za jutarnje rituale, popodnevne pauze i večernja uživanja.</p>
+      <div class="divider reveal d2" style="max-width:240px;margin:24px auto 0;"><div class="divider-line"></div><div class="divider-icon">◆</div><div class="divider-line"></div></div>
+      <div class="menu-tabs">
+        <button class="menu-tab active" onclick="switchTab('kafa',this)">☕ Kafa</button>
+        <button class="menu-tab" onclick="switchTab('pica',this)">🥤 Pića</button>
+        <button class="menu-tab" onclick="switchTab('kokteli',this)">🍹 Kokteli</button>
+        <button class="menu-tab" onclick="switchTab('hrana',this)">🥪 Hrana</button>
+      </div>
+    </div>
+
+    <div class="menu-grid active" id="tab-kafa">
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Espresso</span><div class="menu-item-dot"></div><span class="menu-item-price">1,50 KM</span></div><p class="menu-item-desc">Klasičan kratki espresso, intenzivnog i bogatog okusa</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Cappuccino</span><div class="menu-item-dot"></div><span class="menu-item-price">2,50 KM</span></div><p class="menu-item-desc">Kremasti cappuccino sa savršenom mlječnom pjenom</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Latte Macchiato</span><div class="menu-item-dot"></div><span class="menu-item-price">3,00 KM</span></div><p class="menu-item-desc">Mlijeko i espresso u savršenom omjeru, nježnog okusa</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Flat White</span><div class="menu-item-dot"></div><span class="menu-item-price">3,00 KM</span></div><p class="menu-item-desc">Glatki mikropijena sa duplim espressom — za prave poznavaoce</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Domaća kafa</span><div class="menu-item-dot"></div><span class="menu-item-price">1,80 KM</span></div><p class="menu-item-desc">Tradicionalna bosanska kafa, poslužena sa šećerom i vodom</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Iced Coffee</span><div class="menu-item-dot"></div><span class="menu-item-price">3,50 KM</span></div><p class="menu-item-desc">Hladna kafa sa ledom — osvježavajuća, idealna za ljeto</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Espresso Tonic</span><div class="menu-item-dot"></div><span class="menu-item-price">4,00 KM</span></div><p class="menu-item-desc">Espresso i tonic voda — trendovska osvježavajuća kombinacija</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Topla čokolada</span><div class="menu-item-dot"></div><span class="menu-item-price">2,80 KM</span></div><p class="menu-item-desc">Kremasta topla čokolada, savršena za hladne dane</p></div>
+    </div>
+    <div class="menu-grid" id="tab-pica">
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Fresh sok — naranča</span><div class="menu-item-dot"></div><span class="menu-item-price">3,50 KM</span></div><p class="menu-item-desc">Svježe cijeđeni sok od naranče — 100% prirodno</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Domaća limunade</span><div class="menu-item-dot"></div><span class="menu-item-price">3,00 KM</span></div><p class="menu-item-desc">Klasična ili s mentom — svježe i osvježavajuće</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Pivo</span><div class="menu-item-dot"></div><span class="menu-item-price">2,50 KM</span></div><p class="menu-item-desc">Domaće i uvozno pivo — u boci ili točeno na slavini</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Vino</span><div class="menu-item-dot"></div><span class="menu-item-price">od 3,00 KM</span></div><p class="menu-item-desc">Crveno, bijelo i roze vino — domaće i uvozno, po čaši</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Rakija</span><div class="menu-item-dot"></div><span class="menu-item-price">2,00 KM</span></div><p class="menu-item-desc">Šljivovica, loza, dunjevača — domaće i uvozne sorte</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Bezalkoholna pića</span><div class="menu-item-dot"></div><span class="menu-item-price">od 1,50 KM</span></div><p class="menu-item-desc">Coca‑Cola, Fanta, Sprite, voda, energetska pića i sokovi</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Smoothie</span><div class="menu-item-dot"></div><span class="menu-item-price">4,50 KM</span></div><p class="menu-item-desc">Svježe voće po izboru — jagoda, banana, mango ili mješavina</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Čaj</span><div class="menu-item-dot"></div><span class="menu-item-price">2,00 KM</span></div><p class="menu-item-desc">Zeleni, crni ili voćni čaj — zagrijava i opušta</p></div>
+    </div>
+    <div class="menu-grid" id="tab-kokteli">
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Mojito</span><div class="menu-item-dot"></div><span class="menu-item-price">6,00 KM</span></div><p class="menu-item-desc">Rum, limeta, svježa menta, šećer, soda — klasik koji ne razočara</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Aperol Spritz</span><div class="menu-item-dot"></div><span class="menu-item-price">6,00 KM</span></div><p class="menu-item-desc">Aperol, prosecco, soda, naranča i led — osvježavajuće i elegantno</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Zebrano Special</span><div class="menu-item-dot"></div><span class="menu-item-price">7,00 KM</span></div><p class="menu-item-desc">Naš signature koktel — iznenađenje koje se mora probati</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Long Island Ice Tea</span><div class="menu-item-dot"></div><span class="menu-item-price">7,00 KM</span></div><p class="menu-item-desc">Vodka, rum, gin, tequila, cola, limun — za prave avanturiste</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Virgin Mojito</span><div class="menu-item-dot"></div><span class="menu-item-price">4,00 KM</span></div><p class="menu-item-desc">Bez alkohola — svježa menta, limeta, soda i led</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Strawberry Daiquiri</span><div class="menu-item-dot"></div><span class="menu-item-price">6,50 KM</span></div><p class="menu-item-desc">Rum, svježe jagode, limeta i šećerni sirup — voćno i savršeno</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Gin &amp; Tonic</span><div class="menu-item-dot"></div><span class="menu-item-price">6,00 KM</span></div><p class="menu-item-desc">Premium gin, tonic i svježi limun — jednostavno i sofisticirano</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Piña Colada</span><div class="menu-item-dot"></div><span class="menu-item-price">6,50 KM</span></div><p class="menu-item-desc">Rum, kokosovo mlijeko i ananas — tropski odmor u čaši</p></div>
+    </div>
+    <div class="menu-grid" id="tab-hrana">
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Tost</span><div class="menu-item-dot"></div><span class="menu-item-price">3,00 KM</span></div><p class="menu-item-desc">Topli tost sa šunkom i sirom — brzo i ukusno</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Sendvič</span><div class="menu-item-dot"></div><span class="menu-item-price">4,50 KM</span></div><p class="menu-item-desc">Svježe pripremljeni sendvič po izboru</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Palačinke</span><div class="menu-item-dot"></div><span class="menu-item-price">od 3,00 KM</span></div><p class="menu-item-desc">Sa nutellom, džemom, šlagom ili voćem — za svaki okus</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Grickalice</span><div class="menu-item-dot"></div><span class="menu-item-price">od 2,00 KM</span></div><p class="menu-item-desc">Čips, kikiriki, mix grickalice — savršen uz piće</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Kroasan</span><div class="menu-item-dot"></div><span class="menu-item-price">2,50 KM</span></div><p class="menu-item-desc">Svježi kroasan — običan, sa maslacem ili nutellom</p></div>
+      <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Wrap</span><div class="menu-item-dot"></div><span class="menu-item-price">5,00 KM</span></div><p class="menu-item-desc">Tortilla sa povrćem, sirom i umakom po izboru</p></div>
+    </div>
+    <div class="menu-note reveal">
+      <div class="menu-note-icon">ℹ️</div>
+      <div class="menu-note-text"><strong>Napomena:</strong> Svi napici se pripremaju svježe na narudžbu. Za posebne zahtjeve (alergije, dijeta) slobodno obavijestite naše osoblje koje će vam rado prilagoditi narudžbu.</div>
+    </div>
+  </div>
+
+  <div class="marquee-band"><div class="marquee-inner" aria-hidden="true"><span>Espresso</span><span class="dot">◆</span><span>Cappuccino</span><span class="dot">◆</span><span>Kokteli</span><span class="dot">◆</span><span>Hrana</span><span class="dot">◆</span><span>Svježe Pripremljeno</span><span class="dot">◆</span><span>Zebrano Meni</span><span class="dot">◆</span><span>Espresso</span><span class="dot">◆</span><span>Cappuccino</span><span class="dot">◆</span><span>Kokteli</span><span class="dot">◆</span><span>Hrana</span><span class="dot">◆</span><span>Svježe Pripremljeno</span><span class="dot">◆</span><span>Zebrano Meni</span><span class="dot">◆</span></div></div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">Ze<span>brano</span></div>
+      <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
+  </footer>
+</div>
+
+<!-- ═══ PAGE: GALERIJA ═══ -->
+<div class="page" id="page-galerija">
+  <div class="page-banner">
+    <div class="pb-bg" style="background-image:url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=70&fit=crop');"></div>
+    <div class="pb-overlay"></div>
+    <div class="pb-content"><p class="pb-eye">Naš Prostor</p><h1 class="pb-title"><em>Galerija</em></h1></div>
+  </div>
+
+  <div class="galerija-intro">
+    <div>
+      <p class="section-eyebrow reveal">Naš Prostor</p>
+      <h2 class="section-title reveal d1">Atmosfera koja <em>oduševljava</em></h2>
+      <p class="body-text reveal d2">Zebrano Caffe je dizajniran za udobnost i stil. Topla rasvjeta, pažljivo odabrani detalji i ljubazno osoblje čine svaki posjet posebnim iskustvom.</p>
+      <p class="body-text reveal d2">Od udobnih sjedišta do lijepo uređene terase — svaki kutak prostora je promišljen s ljubavlju prema gostima.</p>
+    </div>
+    <div>
+      <blockquote class="atm-quote reveal d2">"Savršen kutak za jutarnju kafu ili večernje relaksiranje u srcu Kozarske Dubice."</blockquote>
+      <div style="margin-top:28px;display:flex;gap:16px;flex-wrap:wrap;" class="reveal d3">
+        <div style="text-align:center;padding:20px 24px;border:1px solid rgba(201,168,76,.1);background:rgba(26,13,5,.5);flex:1;min-width:80px;"><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);">2</div><div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-top:6px;">Sale</div></div>
+        <div style="text-align:center;padding:20px 24px;border:1px solid rgba(201,168,76,.1);background:rgba(26,13,5,.5);flex:1;min-width:80px;"><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);">1</div><div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-top:6px;">Terasa</div></div>
+        <div style="text-align:center;padding:20px 24px;border:1px solid rgba(201,168,76,.1);background:rgba(26,13,5,.5);flex:1;min-width:80px;"><div style="font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);">60+</div><div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(245,240,232,.4);margin-top:6px;">Mjesta</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="atm-mosaic reveal">
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80&fit=crop" alt="Unutarnji prostor" loading="lazy"><div class="atm-label">Unutarnji prostor</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1600093463592-8e36ae95ef56?w=500&q=80&fit=crop" alt="Bar" loading="lazy"><div class="atm-label">Bar</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=500&q=80&fit=crop" alt="Terasa" loading="lazy"><div class="atm-label">Terasa</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&q=80&fit=crop" alt="Detalji" loading="lazy"><div class="atm-label">Detalji</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=500&q=80&fit=crop" alt="Večernja atmosfera" loading="lazy"><div class="atm-label">Večernja atmosfera</div></div>
+  </div>
+
+  <div class="galerija-row2 reveal">
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=75&fit=crop" alt="" loading="lazy"><div class="atm-label">Kuhinja</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1516684732162-798a0062be99?w=400&q=75&fit=crop" alt="" loading="lazy"><div class="atm-label">Jutro</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?w=400&q=75&fit=crop" alt="" loading="lazy"><div class="atm-label">Noć</div></div>
+    <div class="atm-cell"><img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400&q=75&fit=crop" alt="" loading="lazy"><div class="atm-label">Detalji</div></div>
+  </div>
+
+  <div class="photo-reel">
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1522992319-0365e5f11656?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1507914372368-b2b085b925a1?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1485182708500-e8f1f318ba72?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1571624436279-b272aff752b5?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+    <div class="photo-reel-item"><img src="https://images.unsplash.com/photo-1559305616-3f99cd43e353?w=400&q=75&fit=crop" alt="" loading="lazy"></div>
+  </div>
+
+  <div style="padding:52px 64px 0;max-width:1400px;margin:0 auto;text-align:center;" class="reveal">
+    <p style="font-size:.8rem;color:rgba(245,240,232,.32);letter-spacing:.06em;">Pratite nas na Instagramu za najnovije fotografije · <a href="https://www.instagram.com/zebranocaffe/" target="_blank" style="color:var(--gold);">@zebranocaffe</a></p>
+  </div>
+
+  <div class="marquee-band" style="margin-top:64px;"><div class="marquee-inner" aria-hidden="true"><span>Interijer</span><span class="dot">◆</span><span>Bar</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span><span>Detalji</span><span class="dot">◆</span><span>Atmosfera</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span><span>Interijer</span><span class="dot">◆</span><span>Bar</span><span class="dot">◆</span><span>Terasa</span><span class="dot">◆</span><span>Detalji</span><span class="dot">◆</span><span>Atmosfera</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span></div></div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">Ze<span>brano</span></div>
+      <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
+  </footer>
+</div>
+
+<!-- ═══ PAGE: INFO ═══ -->
+<div class="page" id="page-info">
+  <div class="page-banner">
+    <div class="pb-bg" style="background-image:url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=70&fit=crop');"></div>
+    <div class="pb-overlay"></div>
+    <div class="pb-content"><p class="pb-eye">Posjetite Nas</p><h1 class="pb-title">Sve što trebate <em>znati</em></h1></div>
+  </div>
+
+  <div class="info-blocks">
+    <div style="text-align:center;margin-bottom:64px;"><p class="section-eyebrow reveal">Posjetite Nas</p><h2 class="section-title reveal d1">Lokacija &amp; <em>Kontakt</em></h2></div>
+    <div class="info-inner">
+      <div class="info-block reveal">
+        <div class="info-icon">⏰</div>
+        <p class="info-label">Radno Vrijeme</p>
+        <p class="info-value">Pon – Pet<br>08:00 – 24:00</p>
+        <p class="info-sub">Subota: 09:00 – 01:00</p>
+        <p class="info-sub">Nedjelja: 09:00 – 01:00</p>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block reveal d1">
+        <div class="info-icon">📍</div>
+        <p class="info-label">Adresa</p>
+        <p class="info-value">Kozarska Dubica<br>Republika Srpska</p>
+        <p class="info-sub">Bosna i Hercegovina</p>
+      </div>
+      <div class="info-divider"></div>
+      <div class="info-block reveal d2">
+        <div class="info-icon">📱</div>
+        <p class="info-label">Pratite Nas</p>
+        <p class="info-value">@zebranocaffe</p>
+        <p class="info-sub"><a href="https://www.instagram.com/zebranocaffe/" target="_blank" style="color:var(--gold);">Instagram →</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <div class="map-block reveal">
+      <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=16.7%2C45.17%2C16.85%2C45.22&layer=mapnik" title="Zebrano Caffe lokacija" loading="lazy"></iframe>
+      <div class="map-overlay"><p>Zebrano Caffe · Kozarska Dubica</p></div>
+    </div>
+  </div>
+
+  <div class="faq-section">
+    <div class="faq-inner">
+      <div style="text-align:center;"><p class="section-eyebrow reveal">Česta Pitanja</p><h2 class="section-title reveal d1">Imate <em>pitanja</em>?</h2><p class="body-text reveal d2" style="max-width:500px;margin:0 auto;">Odgovori na najčešća pitanja naših gostiju. Za sve ostalo — kontaktirajte nas na Instagramu.</p></div>
+      <div class="faq-list reveal d2">
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li je potrebna rezervacija?</div><div class="faq-a"><p>Rezervacija nije obavezna, ali za veće grupe (6+ osoba) preporučujemo da nas kontaktirate unaprijed putem Instagrama.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li imate WiFi?</div><div class="faq-a"><p>Da, slobodan WiFi je dostupan svim gostima. Lozinku možete dobiti od osoblja pri narudžbi.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li prihvatate kartično plaćanje?</div><div class="faq-a"><p>Da, prihvatamo kartično plaćanje (Visa, Mastercard) kao i gotovinu. Mobilno plaćanje je također dostupno.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li imate vegetarijansku ponudu?</div><div class="faq-a"><p>U našoj ponudi ima opcija pogodnih za vegetarijance. Za specifične zahtjeve slobodno pitajte osoblje koje vam može prilagoditi narudžbu.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li organizujete privatne evente?</div><div class="faq-a"><p>Da! Naš prostor je idealan za manje privatne skupove, rođendane i poslovne susrete. Kontaktirajte nas putem Instagrama za više informacija.</p></div></div>
+        <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Da li je terasa otvorena cijele godine?</div><div class="faq-a"><p>Terasa je otvorena tokom toplijeg dijela godine — proljeće, ljeto i jesen. Tokom zime gosti uživaju u udobnom unutrašnjem prostoru.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-band"><div class="marquee-inner" aria-hidden="true"><span>08:00 – 24:00</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Dobrodošli</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span><span>Vikend 01:00</span><span class="dot">◆</span><span>@zebranocaffe</span><span class="dot">◆</span><span>08:00 – 24:00</span><span class="dot">◆</span><span>Kozarska Dubica</span><span class="dot">◆</span><span>Dobrodošli</span><span class="dot">◆</span><span>Zebrano Caffe</span><span class="dot">◆</span><span>Vikend 01:00</span><span class="dot">◆</span><span>@zebranocaffe</span><span class="dot">◆</span></div></div>
+
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">Ze<span>brano</span></div>
+      <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+    </div>
+    <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
+  </footer>
+</div>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+if(cursor && ring){
+  document.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX-4}px,${e.clientY-4}px)`;
+    ring.style.transform = `translate(${e.clientX-15}px,${e.clientY-15}px)`;
+  });
+}
+
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+
+function toggleMobile(){
+  document.getElementById('burger').classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('open') ? 'hidden' : '';
+}
+function closeMobile(){
+  document.getElementById('burger').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+let current = 'home';
+function goTo(page){
+  document.getElementById('page-' + current).classList.remove('active');
+  const el = document.getElementById('page-' + page);
+  el.classList.add('active');
+  el.classList.remove('page-fade');
+  void el.offsetWidth;
+  el.classList.add('page-fade');
+  current = page;
+  window.scrollTo({top:0, behavior:'instant'});
+  document.querySelectorAll('.nav-links a[data-page]').forEach(a => a.classList.toggle('active', a.dataset.page === page));
+  if(page === 'meni'){
+    document.querySelectorAll('#page-meni .menu-grid').forEach(g => g.classList.remove('active'));
+    document.querySelectorAll('#page-meni .menu-tab').forEach(t => t.classList.remove('active'));
+    const ft = document.querySelector('#page-meni .menu-tab');
+    const fg = document.getElementById('tab-kafa');
+    if(ft) ft.classList.add('active');
+    if(fg) fg.classList.add('active');
+  }
+  setupReveal();
+}
+
+function switchTab(id, btn){
+  const pg = document.getElementById('page-meni');
+  pg.querySelectorAll('.menu-grid').forEach(g => g.classList.remove('active'));
+  pg.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let obs;
+function setupReveal(){
+  if(obs) obs.disconnect();
+  obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, {threshold: 0.1});
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => { if(!el.classList.contains('visible')) obs.observe(el); });
+}
+setupReveal();
+
+function toggleFaq(qEl){
+  const item = qEl.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if(!wasOpen) item.classList.add('open');
+}
+
+document.querySelectorAll('.atm-mosaic, .about-photos, .photo-strip, .hgt-grid, .galerija-row2').forEach(parent => {
+  [...parent.children].forEach((child, i) => { if(!child.classList.contains('about-accent')) child.style.transitionDelay = (i * 0.07) + 's'; });
+});
+</script>
+</body>
+</html>
