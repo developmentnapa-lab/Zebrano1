@@ -325,6 +325,26 @@
       .galerija-row2{grid-template-columns:1fr 1fr;}
       .menu-tab{padding:9px 10px;font-size:.6rem;letter-spacing:.12em;}
     }
+
+    /* SVG ICONS */
+    .svg-icon{display:flex;align-items:center;justify-content:center;margin-bottom:18px;color:var(--gold);}
+    .svg-icon svg{width:28px;height:28px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+    .preview-card .svg-icon{margin-bottom:18px;}
+    .preview-card .svg-icon svg{width:30px;height:30px;}
+    .info-icon.svg-icon{width:48px;height:48px;margin:0 auto 18px;border:1px solid rgba(201,168,76,.25);border-radius:50%;background:rgba(201,168,76,.07);}
+    .info-icon.svg-icon svg{width:22px;height:22px;}
+    .value-icon.svg-icon{margin-bottom:20px;}
+    .value-icon.svg-icon svg{width:28px;height:28px;}
+    .menu-note-icon.svg-icon{width:24px;height:24px;flex-shrink:0;margin:2px 0 0;margin-bottom:0;}
+    .menu-note-icon.svg-icon svg{width:20px;height:20px;}
+
+    /* FOOTER SOCIAL */
+    .footer-social{display:flex;gap:10px;flex-wrap:wrap;}
+
+    /* GALERIJA BUTTON MOBILE */
+    @media(max-width:768px){
+      .hgt-btn-wrap{text-align:center;margin-top:30px;}
+    }
   </style>
 </head>
 <body>
@@ -338,6 +358,7 @@
   <a onclick="goTo('galerija');closeMobile()">Galerija</a>
   <a onclick="goTo('info');closeMobile()">Info</a>
   <a href="https://www.instagram.com/zebranocaffe/" target="_blank" class="mobile-ig">Instagram ↗</a>
+  <a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank" class="mobile-ig">Facebook ↗</a>
 </div>
 
 <!-- NAV -->
@@ -368,7 +389,6 @@
         <span class="btn-ghost" onclick="goTo('info')">Radno Vrijeme</span>
       </div>
     </div>
-    <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
   </section>
 
   <div class="photo-strip">
@@ -416,10 +436,10 @@
       <h2 class="section-title d1">Nešto za <em>svakoga</em></h2>
     </div>
     <div class="preview-cards">
-      <div class="preview-card reveal"><div class="preview-card-icon">☕</div><div class="preview-card-title">Kafa &amp; Topli Napici</div><div class="preview-card-desc">Espresso, cappuccino, latte, domaća kafa — savršen početak svakog dana.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
-      <div class="preview-card reveal d1"><div class="preview-card-icon">🍹</div><div class="preview-card-title">Kokteli &amp; Pića</div><div class="preview-card-desc">Osvježavajući kokteli, domaće limunade, pivo i vino za svaku prigodu.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
-      <div class="preview-card reveal d2"><div class="preview-card-icon">🌿</div><div class="preview-card-title">Terasa</div><div class="preview-card-desc">Uživajte u toplim danima na našoj terasi — idealno za jutarnju kafu ili večer.</div><div class="preview-card-cta" onclick="goTo('galerija')">Pogledaj prostor →</div></div>
-      <div class="preview-card reveal d3"><div class="preview-card-icon">🎵</div><div class="preview-card-title">Glazba &amp; Atmosfera</div><div class="preview-card-desc">Pažljivo odabrana glazba stvara savršenu kulisu za svaki trenutak u danu.</div><div class="preview-card-cta" onclick="goTo('info')">Kontaktirajte nas →</div></div>
+      <div class="preview-card reveal"><div class="preview-card-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div class="preview-card-title">Kafa &amp; Topli Napici</div><div class="preview-card-desc">Espresso, cappuccino, latte, domaća kafa — savršen početak svakog dana.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
+      <div class="preview-card reveal d1"><div class="preview-card-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M8 22h8M12 11v11M5 11h14l-1.5-7H6.5L5 11z"/><path d="M9 4c0-1 .5-2 1.5-2.5S13 1 14 3"/></svg></div><div class="preview-card-title">Kokteli &amp; Pića</div><div class="preview-card-desc">Osvježavajući kokteli, domaće limunade, pivo i vino za svaku prigodu.</div><div class="preview-card-cta" onclick="goTo('meni')">Pogledaj meni →</div></div>
+      <div class="preview-card reveal d2"><div class="preview-card-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="preview-card-title">Terasa</div><div class="preview-card-desc">Uživajte u toplim danima na našoj terasi — idealno za jutarnju kafu ili večer.</div><div class="preview-card-cta" onclick="goTo('galerija')">Pogledaj prostor →</div></div>
+      <div class="preview-card reveal d3"><div class="preview-card-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="preview-card-title">Glazba &amp; Atmosfera</div><div class="preview-card-desc">Pažljivo odabrana glazba stvara savršenu kulisu za svaki trenutak u danu.</div><div class="preview-card-cta" onclick="goTo('info')">Kontaktirajte nas →</div></div>
     </div>
   </div>
 
@@ -435,7 +455,7 @@
         <h2 class="section-title reveal d1">Atmosfera koja <em>oduševljava</em></h2>
         <p class="body-text reveal d2">Topla rasvjeta, pažljivo odabrani detalji i udoban interijer — svaki posjet Zebrano je poseban doživljaj koji pamtite.</p>
         <p class="body-text reveal d2">Moderan dizajn u srcu Kozarske Dubice — prostor koji vas odmah opušta.</p>
-        <div style="margin-top:30px;" class="reveal d3"><span class="btn-ghost" onclick="goTo('galerija')">Pogledaj galeriju →</span></div>
+        <div style="margin-top:30px;" class="reveal d3 hgt-btn-wrap"><span class="btn-ghost" onclick="goTo('galerija')">Pogledaj galeriju →</span></div>
       </div>
     </div>
   </div>
@@ -446,7 +466,7 @@
     <div class="footer-top">
       <div class="footer-logo">Ze<span>brano</span></div>
       <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
-      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a><a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="none"/></svg>Facebook</a></div>
     </div>
     <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
   </footer>
@@ -491,12 +511,12 @@
         <h2 class="section-title reveal d1">Što nas čini <em>posebnim</em></h2>
       </div>
       <div class="values-grid">
-        <div class="value-card reveal"><div class="value-icon">☕</div><div class="value-title">Kvalitetna Kafa</div><div class="value-desc">Biramo samo najpremijernija zrna kafe i brinemo se o svakom detalju pripreme — od temperature do izgleda u šolji.</div></div>
-        <div class="value-card reveal d1"><div class="value-icon">🤝</div><div class="value-title">Topla Dobrodošlica</div><div class="value-desc">Svaki gost je poseban. Naš tim je tu da vas dočeka s osmijehom i napravi da se osjećate kao kod kuće.</div></div>
-        <div class="value-card reveal d2"><div class="value-icon">✨</div><div class="value-title">Pažnja na Detalje</div><div class="value-desc">Od uređenja prostora do prezentacije pića, svaki detalj je promišljen kako bi vaše iskustvo bilo savršeno.</div></div>
-        <div class="value-card reveal d3"><div class="value-icon">🎵</div><div class="value-title">Prava Atmosfera</div><div class="value-desc">Pažljivo odabrana glazba i topla rasvjeta stvaraju savršenu kulisu za svaki trenutak u danu.</div></div>
-        <div class="value-card reveal d4"><div class="value-icon">🌿</div><div class="value-title">Svježi Sastojci</div><div class="value-desc">Koristimo svježe sastojke za naše limunade, koktele i hranu — okus koji to odmah pokaže.</div></div>
-        <div class="value-card reveal" style="transition-delay:.6s;"><div class="value-icon">📍</div><div class="value-title">Srce Grada</div><div class="value-desc">Strateška lokacija u centru Kozarske Dubice čini nas lako dostupnim za sve.</div></div>
+        <div class="value-card reveal"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></div><div class="value-title">Kvalitetna Kafa</div><div class="value-desc">Biramo samo najpremijernija zrna kafe i brinemo se o svakom detalju pripreme — od temperature do izgleda u šolji.</div></div>
+        <div class="value-card reveal d1"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="value-title">Topla Dobrodošlica</div><div class="value-desc">Svaki gost je poseban. Naš tim je tu da vas dočeka s osmijehom i napravi da se osjećate kao kod kuće.</div></div>
+        <div class="value-card reveal d2"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="value-title">Pažnja na Detalje</div><div class="value-desc">Od uređenja prostora do prezentacije pića, svaki detalj je promišljen kako bi vaše iskustvo bilo savršeno.</div></div>
+        <div class="value-card reveal d3"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><div class="value-title">Prava Atmosfera</div><div class="value-desc">Pažljivo odabrana glazba i topla rasvjeta stvaraju savršenu kulisu za svaki trenutak u danu.</div></div>
+        <div class="value-card reveal d4"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="value-title">Svježi Sastojci</div><div class="value-desc">Koristimo svježe sastojke za naše limunade, koktele i hranu — okus koji to odmah pokaže.</div></div>
+        <div class="value-card reveal" style="transition-delay:.6s;"><div class="value-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="value-title">Srce Grada</div><div class="value-desc">Strateška lokacija u centru Kozarske Dubice čini nas lako dostupnim za sve.</div></div>
       </div>
     </div>
   </div>
@@ -517,7 +537,7 @@
     <div class="footer-top">
       <div class="footer-logo">Ze<span>brano</span></div>
       <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
-      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a><a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="none"/></svg>Facebook</a></div>
     </div>
     <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
   </footer>
@@ -584,7 +604,7 @@
       <div class="menu-item"><div class="menu-item-top"><span class="menu-item-name">Wrap</span><div class="menu-item-dot"></div><span class="menu-item-price">5,00 KM</span></div><p class="menu-item-desc">Tortilla sa povrćem, sirom i umakom po izboru</p></div>
     </div>
     <div class="menu-note reveal">
-      <div class="menu-note-icon">ℹ️</div>
+      <div class="menu-note-icon svg-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
       <div class="menu-note-text"><strong>Napomena:</strong> Svi napici se pripremaju svježe na narudžbu. Za posebne zahtjeve (alergije, dijeta) slobodno obavijestite naše osoblje koje će vam rado prilagoditi narudžbu.</div>
     </div>
   </div>
@@ -595,7 +615,7 @@
     <div class="footer-top">
       <div class="footer-logo">Ze<span>brano</span></div>
       <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
-      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a><a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="none"/></svg>Facebook</a></div>
     </div>
     <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
   </footer>
@@ -661,7 +681,7 @@
     <div class="footer-top">
       <div class="footer-logo">Ze<span>brano</span></div>
       <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
-      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a><a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="none"/></svg>Facebook</a></div>
     </div>
     <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
   </footer>
@@ -679,7 +699,7 @@
     <div style="text-align:center;margin-bottom:64px;"><p class="section-eyebrow reveal">Posjetite Nas</p><h2 class="section-title reveal d1">Lokacija &amp; <em>Kontakt</em></h2></div>
     <div class="info-inner">
       <div class="info-block reveal">
-        <div class="info-icon">⏰</div>
+        <div class="info-icon svg-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
         <p class="info-label">Radno Vrijeme</p>
         <p class="info-value">Pon – Pet<br>08:00 – 24:00</p>
         <p class="info-sub">Subota: 09:00 – 01:00</p>
@@ -687,14 +707,14 @@
       </div>
       <div class="info-divider"></div>
       <div class="info-block reveal d1">
-        <div class="info-icon">📍</div>
+        <div class="info-icon svg-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
         <p class="info-label">Adresa</p>
         <p class="info-value">Kozarska Dubica<br>Republika Srpska</p>
         <p class="info-sub">Bosna i Hercegovina</p>
       </div>
       <div class="info-divider"></div>
       <div class="info-block reveal d2">
-        <div class="info-icon">📱</div>
+        <div class="info-icon svg-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
         <p class="info-label">Pratite Nas</p>
         <p class="info-value">@zebranocaffe</p>
         <p class="info-sub"><a href="https://www.instagram.com/zebranocaffe/" target="_blank" style="color:var(--gold);">Instagram →</a></p>
@@ -729,7 +749,7 @@
     <div class="footer-top">
       <div class="footer-logo">Ze<span>brano</span></div>
       <nav class="footer-nav"><a onclick="goTo('home')">Početna</a><a onclick="goTo('o-nama')">O Nama</a><a onclick="goTo('meni')">Meni</a><a onclick="goTo('galerija')">Galerija</a><a onclick="goTo('info')">Info</a></nav>
-      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>@zebranocaffe</a></div>
+      <div class="footer-social"><a href="https://www.instagram.com/zebranocaffe/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</a><a href="https://www.facebook.com/pages/Zebrano-Caffe/229658023746146/" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" stroke="none"/></svg>Facebook</a></div>
     </div>
     <div class="footer-bottom"><p class="footer-copy">© 2025 Zebrano Caffe · Kozarska Dubica · Sva prava zadržana</p><p class="footer-tagline">Kafa. Okus. Susreti.</p></div>
   </footer>
